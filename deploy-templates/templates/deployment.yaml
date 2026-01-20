@@ -46,13 +46,13 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
+          volumeMounts:                    # Mount external storage into the container
+            - name: logs-volume            # Reference to the volume defined below
+              mountPath: /tmp/logs         # Directory inside container where volume will be mounted
+      volumes:                             # Define volumes available to all containers in this pod
+        - name: logs-volume                # Name of the volume (must match volumeMounts.name)
+          persistentVolumeClaim:           # Use a PersistentVolumeClaim as the volume source
+            claimName: data-logs           # Reference to the PVC that provides persistent storage
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
