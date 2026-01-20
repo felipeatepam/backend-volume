@@ -33,8 +33,8 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext:
-  runAsUser: 0   # Run the container as the root user (UID 0)
-  runAsGroup: 0  # GID 0 also corresponds to the root group for complete file access
+  runAsUser: 0
+  runAsGroup: 0
 
 service:
   type: ClusterIP
